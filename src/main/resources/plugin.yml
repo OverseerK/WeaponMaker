@@ -1,0 +1,4 @@
+name: Weaponary
+version: ${project.version}
+main: com.overseer.weaponary.Weaponary
+api-version: 1.16

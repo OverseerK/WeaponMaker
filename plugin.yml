@@ -1,0 +1,6 @@
+name: Weaponary
+main: com.overseer.weaponary.Weaponary
+version: 1.0
+commands:
+  wcreate:
+    description: "create a weapon"
