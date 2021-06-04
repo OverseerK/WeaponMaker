@@ -10,11 +10,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public final class Weaponary extends JavaPlugin {
@@ -28,19 +30,26 @@ public final class Weaponary extends JavaPlugin {
                     p.sendMessage("/wcreate 이름 종류 색깔 피해량");
                 } else {
                     String Name = args[0];
-                    Name.replace('_', ' ');
+                    Name = Name.replace('_', ' ');
                     Material Material = org.bukkit.Material.valueOf(args[1]);
                     ChatColor Color = ChatColor.valueOf(args[2]);
                     int Damage = Integer.parseInt(args[3]);
                     ItemStack Weapon = new ItemStack(Material);
                     ItemMeta Meta = Weapon.getItemMeta();
                     Meta.setDisplayName(Color + Name);
+                    ArrayList<String> Lore = new ArrayList<String>();
+                    Lore.add("§fDamage: §c+" + Damage);
+                    Meta.setLore(Lore);
                     AttributeModifier DMG = new AttributeModifier(UUID.randomUUID(), "Damage", Damage, Operation.ADD_NUMBER, EquipmentSlot.HAND);
                     AttributeModifier SPD = new AttributeModifier(UUID.randomUUID(), "Speed", 16, Operation.ADD_NUMBER, EquipmentSlot.HAND);
                     Meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, DMG);
                     Meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, SPD);
+                    Meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    Meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                    Meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                    Meta.setUnbreakable(true);
                     Weapon.setItemMeta(Meta);
-                    Weapon.addEnchantment(Enchantment.LOYALTY, 0);
+                    Weapon.addUnsafeEnchantment(Enchantment.LOYALTY, 0);
                     p.getInventory().addItem(Weapon);
                 }
                 return true;
